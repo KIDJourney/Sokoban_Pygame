@@ -11,15 +11,15 @@ from pygame.locals import *
 #N=NULL
 #Game_Screen = pygame.surface.surfa
 
-#Map Refresh Unit
-
-
 
 
 
 def MapRefresh():
     pass
 if __name__ == "__main__":
+    pygame.init()
+    pygame.display.set_mode((Load_Unit.Map_Wide,Load_Unit.Map_Deepth),0,28)
+
     Load_Unit.ReadMap()
     Load_Unit.ImageLoad()
-
+    
