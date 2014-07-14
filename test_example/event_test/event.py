@@ -15,7 +15,6 @@ while True:
     event = pygame.event.wait()
     event_text.append(str(event))
     event_text = event_text[-SCREEN_SIZE[1]/font_height:]
-
     if event.type ==QUIT:
         exit()
 
