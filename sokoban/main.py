@@ -238,8 +238,10 @@ if __name__=="__main__":
                 elif event.key == K_SPACE:
                     Redo()
                 elif event.key == 27:
+                    pygame.display.quit()
                     exit()
             elif event.type == QUIT:
+                pygame.display.quit()
                 exit()
         if (Check_Win()):
             print "you win"
@@ -253,6 +255,5 @@ if __name__=="__main__":
                 Game_Screen.blit(Game_Success,(0,0))
                 pygame.display.update()
                 time.sleep(5)
+                pygame.display.quit()
                 exit()
-
-
