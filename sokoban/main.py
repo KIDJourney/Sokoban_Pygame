@@ -6,13 +6,17 @@ from pygame.locals import *
 from sys import exit
 #Read Image Unit
 pygame.init()
-Game_Screen = pygame.display.set_mode((1024,1024),0,32)
+Game_Screen = pygame.display.set_mode((768,768),0,32)
+Image_Help = pygame.image.load("source/help.png").convert()
+Image_Welcome = pygame.image.load("source/welcome.png").convert()
 Image_Box_Inplace = pygame.image.load("source/Box_Inplace.jpg").convert()
 Image_Box_Outplace = pygame.image.load("source/Box_Outplace.JPG").convert()
 Game_Success = pygame.image.load("source/Success.jpg").convert()
 Image_Player = pygame.image.load("source/man.jpg").convert()
 Image_Goal = pygame.image.load("source/Goal.jpg").convert()
 Image_Wall = pygame.image.load("source/wall.jpg").convert()
+Image_Help = pygame.transform.scale(Image_Help,(768,768))
+Image_Welcome = pygame.transform.scale(Image_Welcome,(768,768))
 Image_Box_Inplace = pygame.transform.scale(Image_Box_Inplace,(64,64))
 Image_Box_Outplace = pygame.transform.scale(Image_Box_Outplace,(64,64))
 Image_Player = pygame.transform.scale(Image_Player,(64,64))
@@ -41,7 +45,6 @@ def Debug_Map(alist):
 
 #Global Vara
 Game_font = pygame.font.SysFont("arial",32)
-Game_Help = "Use director to move , r to undo"
 Game_Map_Source = []
 Game_Step = 0
 Player_Pos=[0,0]
@@ -99,7 +102,6 @@ def Display_refresh(Game_Screen):
     global Map_Deepth
     global Map_Wide
     global Player_Pos
-    global Game_Help
     Game_Screen.fill((255,255,255))
     for i in range(Map_Deepth):
         for j in range(Map_Wide):
@@ -116,9 +118,8 @@ def Display_refresh(Game_Screen):
                 Game_Screen.blit(Image_Box_Inplace,pos)
             elif  Game_Map[i][j]=='G':
                 Game_Screen.blit(Image_Goal,pos)
-    pygame.display.set_caption("Mission %s   Step %s" % (str(Game_Level),str(Game_Step)))
-    Game_Screen.blit(Game_font.render(Game_Help,True,(0,0,0)),(0,Map_Deepth*64-64)) 
-    Game_Screen.blit(Game_font.render("space to redo",True,(0,0,0)),(0,Map_Deepth*64-32)) 
+    pygame.display.set_caption("Mission "+str(Game_Level))
+    #Game_Screen.blit(Game_font.render("space to redo",True,(0,0,0)),(0,Map_Deepth*64-32)) 
     pygame.display.update()
 #Draw Map Unit Done
 
@@ -218,6 +219,28 @@ def Move(dir):
     Display_refresh(Game_Screen)
 
 if __name__=="__main__":
+    Game_Screen.blit(Image_Welcome,(0,0))
+    pygame.display.update()
+    flag = True
+    while flag:
+        Game_Screen.blit(Image_Welcome,(0,0))
+        pygame.display.update()                    
+        for event in pygame.event.get():
+            if event.type == QUIT:
+                pygame.display.quit()
+                exit()
+            if event.type == KEYDOWN:
+                if event.key == 49:
+                    flag=False
+                    break
+                if event.key == 50:
+                    Game_Screen.blit(Image_Help,(0,0))
+                    pygame.display.update()
+                    time.sleep(3)
+                if event.key == 51:
+                    pygame.display.quit()
+                    exit()
+
     Game_Screen = Defult()
     Display_refresh(Game_Screen)
     print Player_Pos
