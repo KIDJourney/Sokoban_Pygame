@@ -1,2 +1,5 @@
-A easy sokoban game with ugly code (really ugly , sorry for being lazy to refact it)
-====
+A easy sokoban game with ugly code 
+==
+
+(really ugly , sorry for being lazy to refact it)
+----
