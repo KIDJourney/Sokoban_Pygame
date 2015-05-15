@@ -6,6 +6,10 @@ Code style is ugly and i don't want to refactor it .
 
 ## Usage
 
+install python 2.x
+
+    # yum install python
+
 install pygame 
 
     # yum install pygame
@@ -20,7 +24,7 @@ then run the main.py
 
 ## Make your own Change
 
-The image source and map directory is in source and map directory . You can replace them with same size and edit edit the map following rules below.
+The image resource and map files is in source and map directory . You can replace them with same size and edit edit the map following rules below.
 
     N for Nothing
 
@@ -32,7 +36,7 @@ The image source and map directory is in source and map directory . You can repl
 
     P for the respawn point
 
-Any comment and advice except refactor code . 
+Any comments and advices are welcomed except refactor code . 
 
 # License
 
