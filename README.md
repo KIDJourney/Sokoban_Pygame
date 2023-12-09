@@ -2,6 +2,8 @@
 
 It's a Sokoban game written with pygame.
 
+<img src="img/ScreenShot.png" width=400>
+
 ## Usage
 
 Install pygame 
@@ -14,7 +16,7 @@ Then run the main.py
 
 ## Make your own Change
 
-The image and map files are in the image and map directories. You can replace them with the same size images and edit the map following rules below.
+The image and map files are in the image and map directories. You can replace them with the same size images and edit the map following the rules below.
 
     N for Nothing
 
