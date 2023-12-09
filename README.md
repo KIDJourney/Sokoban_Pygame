@@ -2,29 +2,19 @@
 
 It's a Sokoban game written with pygame.
 
-Code style is ugly and i don't want to refactor it .
-
 ## Usage
 
-install python 2.x
+Install pygame 
 
-    # yum install python
+    # pip install pygame
 
-install pygame 
-
-    # yum install pygame
-
-clone the repo
-
-    # git clone https://github.com/KIDJourney/Sokoban_Pygame.git
-
-then run the main.py
+Then run the main.py
 
     # python main.py
 
 ## Make your own Change
 
-The image resource and map files is in source and map directory . You can replace them with same size and edit edit the map following rules below.
+The image and map files are in the image and map directories. You can replace them with the same size images and edit the map following rules below.
 
     N for Nothing
 
@@ -34,9 +24,9 @@ The image resource and map files is in source and map directory . You can replac
 
     B for Box
 
-    P for the respawn point
+    P for Player
 
-Any comments and advices are welcomed except refactor code . 
+Any comments and advices are welcome except the coding style ;)
 
 # License
 
