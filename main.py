@@ -4,7 +4,7 @@ import pygame
 import time
 from pygame.locals import *
 from sys import exit
-#Read Image Unit
+
 pygame.init()
 Game_Screen = pygame.display.set_mode((768,768),0,32)
 Image_Help = pygame.image.load("source/help.png").convert()
@@ -22,7 +22,6 @@ Image_Box_Outplace = pygame.transform.scale(Image_Box_Outplace,(64,64))
 Image_Player = pygame.transform.scale(Image_Player,(64,64))
 Image_Wall= pygame.transform.scale(Image_Wall,(64,64))
 Image_Goal = pygame.transform.scale(Image_Goal,(64,64))
-#Read1 Image Unit Done
 
 #The Map
 #0--------------------> x
@@ -36,41 +35,31 @@ Image_Goal = pygame.transform.scale(Image_Goal,(64,64))
 #y
 #Don't Mess the address
 
-#Debug Map
 def Debug_Map(alist):
     for i in alist:
         print( i)
-#Debug Map Done
 
-
-#Global Vara
 Game_font = pygame.font.SysFont("arial",32)
 Game_Map_Source = []
 Game_Step = 0
 Player_Pos=[0,0]
 Game_Level = 1
 Game_Map = []
-Map_Wide = 0
-Map_Deepth = 0
+Map_Width = 0
+Map_Depth = 0
 Game_Path = []
 Dir = ((-1,0),(1,0),(0,-1),(0,1))
 
-#Global Var Done
-
-#Read Map Unit
 def Map_Reader(Mission):
     global Game_Map
-    global Map_Deepth
-    global Map_Wide
+    global Map_Depth
+    global Map_Width
     File_Name ="map/"+ str(Mission) +'.dat'
-    file = open(File_Name,'r')
-    Map_Deepth,Map_Wide = map(int,file.readline().split())
-    for i in range(Map_Deepth):
-        Game_Map.append(file.readline()[:Map_Wide])
-    file.close()
-#Read Map Unit Done
+    with open(File_Name,'r') as file:
+        Map_Depth,Map_Width = map(int,file.readline().split())
+        for i in range(Map_Depth):
+            Game_Map.append(file.readline()[:Map_Width])
 
-#Undo Unit
 def Undo():
     global Game_Screen
     global Game_Map
@@ -82,9 +71,7 @@ def Undo():
         Display_refresh(Game_Screen)
     else:
         print( "You can't forback")
-#Undo Unit Done
 
-#Redo Unit
 def Redo():
     global Game_Map_Source
     global Game_Map
@@ -94,17 +81,16 @@ def Redo():
 
 #Map P = Player W = Wall B = Box G=Goal A=achieve N = Way or NULL
 
-#Draw Map Unit
 def Display_refresh(Game_Screen):
     global Game_Level
     global Game_Step
     global Game_Map
-    global Map_Deepth
-    global Map_Wide
+    global Map_Depth
+    global Map_Width
     global Player_Pos
     Game_Screen.fill((255,255,255))
-    for i in range(Map_Deepth):
-        for j in range(Map_Wide):
+    for i in range(Map_Depth):
+        for j in range(Map_Width):
             pos = [j*64,i*64]
             if Game_Map[i][j]=='P':
                 Game_Screen.blit(Image_Player,pos)
@@ -119,29 +105,25 @@ def Display_refresh(Game_Screen):
             elif  Game_Map[i][j]=='G':
                 Game_Screen.blit(Image_Goal,pos)
     pygame.display.set_caption("Mission "+str(Game_Level))
-    #Game_Screen.blit(Game_font.render("space to redo",True,(0,0,0)),(0,Map_Deepth*64-32)) 
+    #Game_Screen.blit(Game_font.render("space to redo",True,(0,0,0)),(0,Map_Depth*64-32)) 
     pygame.display.update()
-#Draw Map Unit Done
 
-#Check Unit
 def Check_Win():
     num = 0
     global Game_Map
-    global Map_Wide
-    global Map_Deepth
-    for i in range(Map_Deepth):
-        for j in range(Map_Wide):
+    global Map_Width
+    global Map_Depth
+    for i in range(Map_Depth):
+        for j in range(Map_Width):
             if Game_Map[i][j]=='B':
                 return False
     return True
-#Check Win Unit 
 
-#Defult Unit
 def Defult():
     global Game_Map
     global Game_Level
-    global Map_Wide
-    global Map_Deepth
+    global Map_Width
+    global Map_Depth
     global Game_Path
     global Game_Map_Source
     global Player_Pos
@@ -151,16 +133,12 @@ def Defult():
     Game_Map_Source = Game_Map[:]
     pygame.display.set_caption("Mission %s   Step %s" % (str(Game_Level),str(Game_Step)))
     pygame.display.update()
-    return pygame.display.set_mode((Map_Wide*64,Map_Deepth*64),0,32)
-#Defult Unit Done
+    return pygame.display.set_mode((Map_Width*64,Map_Depth*64),0,32)
 
-#Map Change Unit
 def Change_Map(x,y,object):
     global Game_Map
     Game_Map[x] = Game_Map[x][:y]+object+Game_Map[x][y+1:]
-#Map Change Done
 
-#Move Unit
 def Move(dir):
     global Game_Screen
     global Game_Map
@@ -168,8 +146,8 @@ def Move(dir):
     global Game_Step
     global Game_Path
     global Game_Map_Source
-    global Map_Wide
-    global Map_Deepth
+    global Map_Width
+    global Map_Depth
     Player_Stand = Game_Map[Player_Pos[0]][Player_Pos[1]]
     Temp_x = Player_Pos[0] + Dir[dir][0]
     Temp_y = Player_Pos[1] + Dir[dir][1]
@@ -215,7 +193,6 @@ def Move(dir):
             Change_Map(Player_Pos[0],Player_Pos[1],"N")
         Player_Pos[0] = Temp_x
         Player_Pos[1] = Temp_y
-    #else do nothing
     Display_refresh(Game_Screen)
 
 if __name__=="__main__":
