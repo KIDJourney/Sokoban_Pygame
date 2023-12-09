@@ -230,14 +230,14 @@ if __name__=="__main__":
                 pygame.display.quit()
                 exit()
             if event.type == KEYDOWN:
-                if event.key == 49:
+                if event.key == K_1:
                     flag=False
                     break
-                if event.key == 50:
+                if event.key == K_2:
                     Game_Screen.blit(Image_Help,(0,0))
                     pygame.display.update()
                     time.sleep(3)
-                if event.key == 51:
+                if event.key == K_3:
                     pygame.display.quit()
                     exit()
 
@@ -256,11 +256,11 @@ if __name__=="__main__":
                     Move(2)
                 elif event.key == K_RIGHT:
                     Move(3)
-                elif event.key == 114:
+                elif event.key == K_r:
                     Undo()
                 elif event.key == K_SPACE:
                     Redo()
-                elif event.key == 27:
+                elif event.key == K_ESCAPE:
                     pygame.display.quit()
                     exit()
             elif event.type == QUIT:
