@@ -50,7 +50,7 @@ Map_Depth = 0
 Game_Path = []
 Dir = ((-1,0),(1,0),(0,-1),(0,1))
 
-def Map_Reader(Mission):
+def read_map(Mission):
     global Game_Map
     global Map_Depth
     global Map_Width
@@ -60,7 +60,7 @@ def Map_Reader(Mission):
         for i in range(Map_Depth):
             Game_Map.append(file.readline()[:Map_Width])
 
-def Undo():
+def undo():
     global Game_Screen
     global Game_Map
     global Game_Path
@@ -68,20 +68,20 @@ def Undo():
         Game_Map = Game_Path[-1][:]
         del Game_Path[-1]
         print( Game_Map)
-        Display_refresh(Game_Screen)
+        refresh_display(Game_Screen)
     else:
-        print( "You can't forback")
+        print( "You can't go back")
 
-def Redo():
+def start_over():
     global Game_Map_Source
     global Game_Map
     global Game_Screen
     Game_Map = Game_Map_Source[:]
-    Display_refresh(Game_Screen)
+    refresh_display(Game_Screen)
 
 #Map P = Player W = Wall B = Box G=Goal A=achieve N = Way or NULL
 
-def Display_refresh(Game_Screen):
+def refresh_display(Game_Screen):
     global Game_Level
     global Game_Step
     global Game_Map
@@ -108,7 +108,7 @@ def Display_refresh(Game_Screen):
     #Game_Screen.blit(Game_font.render("space to redo",True,(0,0,0)),(0,Map_Depth*64-32)) 
     pygame.display.update()
 
-def Check_Win():
+def check_win():
     num = 0
     global Game_Map
     global Map_Width
@@ -119,7 +119,7 @@ def Check_Win():
                 return False
     return True
 
-def Defult():
+def default():
     global Game_Map
     global Game_Level
     global Map_Width
@@ -129,17 +129,17 @@ def Defult():
     global Player_Pos
     Game_Path = []
     Game_Map = []
-    Map_Reader(Game_Level)
+    read_map(Game_Level)
     Game_Map_Source = Game_Map[:]
     pygame.display.set_caption("Mission %s   Step %s" % (str(Game_Level),str(Game_Step)))
     pygame.display.update()
     return pygame.display.set_mode((Map_Width*64,Map_Depth*64),0,32)
 
-def Change_Map(x,y,object):
+def change_map(x,y,object):
     global Game_Map
     Game_Map[x] = Game_Map[x][:y]+object+Game_Map[x][y+1:]
 
-def Move(dir):
+def move(dir):
     global Game_Screen
     global Game_Map
     global Player_Pos
@@ -160,20 +160,20 @@ def Move(dir):
             #Move Box 
             Game_Path.append(Game_Map[:])
             if Game_Map[Temp_x+Dir[dir][0]][Temp_y+Dir[dir][1]]=='G':
-                Change_Map(Temp_x+Dir[dir][0],Temp_y+Dir[dir][1],'A')
+                change_map(Temp_x+Dir[dir][0],Temp_y+Dir[dir][1],'A')
             else:
-                Change_Map(Temp_x+Dir[dir][0],Temp_y+Dir[dir][1],'B')
+                change_map(Temp_x+Dir[dir][0],Temp_y+Dir[dir][1],'B')
             #Debug_Map(Game_Map) 
             #print( Game_Map)
             #Change Box to Play
-            Change_Map(Temp_x,Temp_y,'P')
+            change_map(Temp_x,Temp_y,'P')
             #print( Game_Map)
             #Debug_Map(Game_Map) 
             #Change Player to what he use to stand;
             if Game_Map_Source[Player_Pos[0]][Player_Pos[1]]=='G':
-                Change_Map(Player_Pos[0],Player_Pos[1],"G")
+                change_map(Player_Pos[0],Player_Pos[1],"G")
             else:
-                Change_Map(Player_Pos[0],Player_Pos[1],"N")
+                change_map(Player_Pos[0],Player_Pos[1],"N")
             #print( Game_Map)
             #Update Player_Pos
             #Debug_Map(Game_Map) 
@@ -181,19 +181,19 @@ def Move(dir):
             Player_Pos[1] = Temp_y
             #print( Game_Map)
             #Debug_Map(Game_Map) 
-            Display_refresh(Game_Screen)
+            refresh_display(Game_Screen)
             return
     #if there is nothing
     if Game_Map[Temp_x][Temp_y] in ("N","G"):
         print( "do it")
-        Change_Map(Temp_x,Temp_y,'P')
+        change_map(Temp_x,Temp_y,'P')
         if Game_Map_Source[Player_Pos[0]][Player_Pos[1]]=='G':
-            Change_Map(Player_Pos[0],Player_Pos[1],"G")
+            change_map(Player_Pos[0],Player_Pos[1],"G")
         else:
-            Change_Map(Player_Pos[0],Player_Pos[1],"N")
+            change_map(Player_Pos[0],Player_Pos[1],"N")
         Player_Pos[0] = Temp_x
         Player_Pos[1] = Temp_y
-    Display_refresh(Game_Screen)
+    refresh_display(Game_Screen)
 
 if __name__=="__main__":
     Game_Screen.blit(Image_Welcome,(0,0))
@@ -218,38 +218,38 @@ if __name__=="__main__":
                     pygame.display.quit()
                     exit()
 
-    Game_Screen = Defult()
-    Display_refresh(Game_Screen)
+    Game_Screen = default()
+    refresh_display(Game_Screen)
     print( Player_Pos)
     print( Game_Map)
     while True:
         for event in pygame.event.get():
             if event.type  ==KEYDOWN:
                 if event.key == K_UP:
-                    Move(0)
+                    move(0)
                 elif event.key == K_DOWN:
-                    Move(1)
+                    move(1)
                 elif event.key == K_LEFT:
-                    Move(2)
+                    move(2)
                 elif event.key == K_RIGHT:
-                    Move(3)
+                    move(3)
                 elif event.key == K_r:
-                    Undo()
+                    undo()
                 elif event.key == K_SPACE:
-                    Redo()
+                    start_over()
                 elif event.key == K_ESCAPE:
                     pygame.display.quit()
                     exit()
             elif event.type == QUIT:
                 pygame.display.quit()
                 exit()
-        if (Check_Win()):
+        if (check_win()):
             print( "you win")
             time.sleep(1)
             if Game_Level < 3:
                 Game_Level += 1
-                Defult()
-                Display_refresh(Game_Screen)
+                default()
+                refresh_display(Game_Screen)
             else:
                 Game_Screen = pygame.display.set_mode((572,416),0,32)
                 Game_Screen.blit(Game_Success,(0,0))
