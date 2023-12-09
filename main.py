@@ -10,7 +10,7 @@ DEBUG = True
 pygame.init()
 Game_Screen = pygame.display.set_mode((768,768),0,32)
 Image_Help = pygame.image.load("img/help.png").convert()
-Image_Welcome = pygame.image.load("img/welcome.png").convert()
+Image_Welcome = pygame.image.load("img/welcome2.png").convert()
 Image_Box_Inplace = pygame.image.load("img/Box_Inplace.jpg").convert()
 Image_Box_Outplace = pygame.image.load("img/Box_Outplace.JPG").convert()
 Game_Success = pygame.image.load("img/Success.jpg").convert()
@@ -38,7 +38,7 @@ Image_Goal = pygame.transform.scale(Image_Goal,(64,64))
 
 def print_map(alist):
     for i in alist:
-        print( i.replace("N", " "))
+        print( i.replace("N", "."))
 
 Game_font = pygame.font.SysFont("arial",32)
 Game_Map_Source = []
@@ -173,8 +173,6 @@ def move(dir):
 
             Player_Pos[0] = Temp_x
             Player_Pos[1] = Temp_y
-            if DEBUG:
-                print_map(Game_Map) 
 
     #If there is nothing
     if Game_Map[Temp_x][Temp_y] in ("N","G"):
@@ -188,6 +186,8 @@ def move(dir):
         Player_Pos[0] = Temp_x
         Player_Pos[1] = Temp_y
 
+    if DEBUG:
+        print_map(Game_Map) 
     refresh_display(Game_Screen)
 
 if __name__=="__main__":
