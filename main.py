@@ -5,7 +5,7 @@ import time
 from pygame.locals import *
 from sys import exit
 
-DEBUG = False
+DEBUG = True
 
 pygame.init()
 Game_Screen = pygame.display.set_mode((768,768),0,32)
@@ -68,7 +68,7 @@ def undo():
     if Game_Path:
         Game_Map = Game_Path.pop()
         refresh_display(Game_Screen)
-    else:
+    elif DEBUG:
         print( "You can't undo")
 
 def start_over():
@@ -191,7 +191,6 @@ def move(dir):
     refresh_display(Game_Screen)
 
 if __name__=="__main__":
-    DEBUG = True
     Game_Screen.blit(Image_Welcome,(0,0))
     pygame.display.update()
     flag = True
