@@ -5,6 +5,8 @@ import time
 from pygame.locals import *
 from sys import exit
 
+DEBUG = False
+
 pygame.init()
 Game_Screen = pygame.display.set_mode((768,768),0,32)
 Image_Help = pygame.image.load("img/help.png").convert()
@@ -150,7 +152,8 @@ def move(dir):
     Temp_y = Player_Pos[1] + Dir[dir][1]
     #If there is a Box
     if Game_Map[Temp_x][Temp_y] in ('A','B'):
-        print( "there is a box")
+        if DEBUG:
+            print( "there is a box")
         if Game_Map[Temp_x+Dir[dir][0]][Temp_y+Dir[dir][1]] in ('N','G'):
             #Move Box 
             Game_Path.append(Game_Map[:])
@@ -170,11 +173,13 @@ def move(dir):
 
             Player_Pos[0] = Temp_x
             Player_Pos[1] = Temp_y
-            print_map(Game_Map) 
+            if DEBUG:
+                print_map(Game_Map) 
 
     #If there is nothing
     if Game_Map[Temp_x][Temp_y] in ("N","G"):
-        print( "there is nothing")
+        if DEBUG:
+            print( "there is nothing")
         change_map(Temp_x,Temp_y,'P')
         if Game_Map_Source[Player_Pos[0]][Player_Pos[1]]=='G':
             change_map(Player_Pos[0],Player_Pos[1],"G")
@@ -186,6 +191,7 @@ def move(dir):
     refresh_display(Game_Screen)
 
 if __name__=="__main__":
+    DEBUG = True
     Game_Screen.blit(Image_Welcome,(0,0))
     pygame.display.update()
     flag = True
@@ -232,7 +238,8 @@ if __name__=="__main__":
                 pygame.display.quit()
                 exit()
         if check_win():
-            print( "you win")
+            if DEBUG:
+                print( "you win")
             time.sleep(1)
             if Game_Level < 3:
                 Game_Level += 1
