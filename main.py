@@ -23,7 +23,7 @@ Image_Player = pygame.transform.scale(Image_Player,(64,64))
 Image_Wall= pygame.transform.scale(Image_Wall,(64,64))
 Image_Goal = pygame.transform.scale(Image_Goal,(64,64))
 
-#The Map
+#The Map Coordinates
 #0--------------------> x
 #|
 #|
@@ -33,11 +33,10 @@ Image_Goal = pygame.transform.scale(Image_Goal,(64,64))
 #|
 #v
 #y
-#Don't Mess the address
 
-def Debug_Map(alist):
+def print_map(alist):
     for i in alist:
-        print( i)
+        print( i.replace("N", " "))
 
 Game_font = pygame.font.SysFont("arial",32)
 Game_Map_Source = []
@@ -65,12 +64,10 @@ def undo():
     global Game_Map
     global Game_Path
     if Game_Path:
-        Game_Map = Game_Path[-1][:]
-        del Game_Path[-1]
-        print( Game_Map)
+        Game_Map = Game_Path.pop()
         refresh_display(Game_Screen)
     else:
-        print( "You can't go back")
+        print( "You can't undo")
 
 def start_over():
     global Game_Map_Source
@@ -151,8 +148,6 @@ def move(dir):
     Player_Stand = Game_Map[Player_Pos[0]][Player_Pos[1]]
     Temp_x = Player_Pos[0] + Dir[dir][0]
     Temp_y = Player_Pos[1] + Dir[dir][1]
-    print( Temp_x,Temp_y)
-    print( Game_Map[Temp_x][Temp_y])
     #If there is a Box
     if Game_Map[Temp_x][Temp_y] in ('A','B'):
         print( "there is a box")
@@ -163,29 +158,22 @@ def move(dir):
                 change_map(Temp_x+Dir[dir][0],Temp_y+Dir[dir][1],'A')
             else:
                 change_map(Temp_x+Dir[dir][0],Temp_y+Dir[dir][1],'B')
-            #Debug_Map(Game_Map) 
-            #print( Game_Map)
-            #Change Box to Play
+
+            #Change Box to Player
             change_map(Temp_x,Temp_y,'P')
-            #print( Game_Map)
-            #Debug_Map(Game_Map) 
-            #Change Player to what he use to stand;
+
+            #Change the Player position to the original floor type
             if Game_Map_Source[Player_Pos[0]][Player_Pos[1]]=='G':
                 change_map(Player_Pos[0],Player_Pos[1],"G")
             else:
                 change_map(Player_Pos[0],Player_Pos[1],"N")
-            #print( Game_Map)
-            #Update Player_Pos
-            #Debug_Map(Game_Map) 
+
             Player_Pos[0] = Temp_x
             Player_Pos[1] = Temp_y
-            #print( Game_Map)
-            #Debug_Map(Game_Map) 
-            refresh_display(Game_Screen)
-            return
-    #if there is nothing
+
+    #If there is nothing
     if Game_Map[Temp_x][Temp_y] in ("N","G"):
-        print( "do it")
+        print( "there is nothing")
         change_map(Temp_x,Temp_y,'P')
         if Game_Map_Source[Player_Pos[0]][Player_Pos[1]]=='G':
             change_map(Player_Pos[0],Player_Pos[1],"G")
@@ -193,6 +181,8 @@ def move(dir):
             change_map(Player_Pos[0],Player_Pos[1],"N")
         Player_Pos[0] = Temp_x
         Player_Pos[1] = Temp_y
+
+    print_map(Game_Map) 
     refresh_display(Game_Screen)
 
 if __name__=="__main__":
@@ -220,8 +210,6 @@ if __name__=="__main__":
 
     Game_Screen = default()
     refresh_display(Game_Screen)
-    print( Player_Pos)
-    print( Game_Map)
     while True:
         for event in pygame.event.get():
             if event.type  ==KEYDOWN:
@@ -243,7 +231,7 @@ if __name__=="__main__":
             elif event.type == QUIT:
                 pygame.display.quit()
                 exit()
-        if (check_win()):
+        if check_win():
             print( "you win")
             time.sleep(1)
             if Game_Level < 3:
