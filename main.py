@@ -7,14 +7,14 @@ from sys import exit
 
 pygame.init()
 Game_Screen = pygame.display.set_mode((768,768),0,32)
-Image_Help = pygame.image.load("source/help.png").convert()
-Image_Welcome = pygame.image.load("source/welcome.png").convert()
-Image_Box_Inplace = pygame.image.load("source/Box_Inplace.jpg").convert()
-Image_Box_Outplace = pygame.image.load("source/Box_Outplace.JPG").convert()
-Game_Success = pygame.image.load("source/Success.jpg").convert()
-Image_Player = pygame.image.load("source/man.jpg").convert()
-Image_Goal = pygame.image.load("source/Goal.jpg").convert()
-Image_Wall = pygame.image.load("source/wall.jpg").convert()
+Image_Help = pygame.image.load("img/help.png").convert()
+Image_Welcome = pygame.image.load("img/welcome.png").convert()
+Image_Box_Inplace = pygame.image.load("img/Box_Inplace.jpg").convert()
+Image_Box_Outplace = pygame.image.load("img/Box_Outplace.JPG").convert()
+Game_Success = pygame.image.load("img/Success.jpg").convert()
+Image_Player = pygame.image.load("img/man.jpg").convert()
+Image_Goal = pygame.image.load("img/Goal.jpg").convert()
+Image_Wall = pygame.image.load("img/wall.jpg").convert()
 Image_Help = pygame.transform.scale(Image_Help,(768,768))
 Image_Welcome = pygame.transform.scale(Image_Welcome,(768,768))
 Image_Box_Inplace = pygame.transform.scale(Image_Box_Inplace,(64,64))
@@ -23,7 +23,7 @@ Image_Player = pygame.transform.scale(Image_Player,(64,64))
 Image_Wall= pygame.transform.scale(Image_Wall,(64,64))
 Image_Goal = pygame.transform.scale(Image_Goal,(64,64))
 
-#The Map Coordinates
+#Map Coordinates
 #0--------------------> x
 #|
 #|
@@ -170,6 +170,7 @@ def move(dir):
 
             Player_Pos[0] = Temp_x
             Player_Pos[1] = Temp_y
+            print_map(Game_Map) 
 
     #If there is nothing
     if Game_Map[Temp_x][Temp_y] in ("N","G"):
@@ -182,7 +183,6 @@ def move(dir):
         Player_Pos[0] = Temp_x
         Player_Pos[1] = Temp_y
 
-    print_map(Game_Map) 
     refresh_display(Game_Screen)
 
 if __name__=="__main__":
